@@ -1,0 +1,84 @@
+MIT License
+
+Copyright (c) 2025 Clóvis Oliveira
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
+## ⚠️ AVISO DE USO RESPONSÁVEL
+
+**IMPORTANTE: Este software é uma ferramenta de análise de segurança de rede e deve ser usado com responsabilidade.**
+
+### Uso Legal
+- ✅ Use APENAS em redes onde você possui autorização EXPLÍCITA e por ESCRITO
+- ✅ Use em ambientes de teste controlados e laboratórios próprios
+- ✅ Use para fins educacionais em ambientes autorizados
+- ✅ Use para auditorias de segurança com consentimento formal
+
+### Uso Ilegal
+- ❌ NÃO use em redes públicas ou privadas sem autorização
+- ❌ NÃO use para interceptar comunicações de terceiros
+- ❌ NÃO use para fins maliciosos ou ataques
+- ❌ NÃO use para violar privacidade ou leis de proteção de dados
+
+### Avisos Legais
+1. **Responsabilidade do Usuário**: O uso inadequado desta ferramenta pode violar leis de crimes cibernéticos, incluindo:
+   - Lei Carolina Dieckmann (Lei 12.737/2012) - Brasil
+   - Marco Civil da Internet (Lei 12.965/2014) - Brasil
+   - LGPD (Lei 13.709/2018) - Brasil
+   - Computer Fraud and Abuse Act (CFAA) - EUA
+   - Convenção de Budapeste sobre Cibercrime
+
+2. **Penalidades**: O uso não autorizado pode resultar em:
+   - Processos criminais
+   - Multas significativas
+   - Prisão
+   - Responsabilidade civil
+
+3. **Isenção de Responsabilidade**: O autor NÃO se responsabiliza por:
+   - Uso indevido do software
+   - Danos causados por uso inadequado
+   - Violações de leis locais, nacionais ou internacionais
+   - Consequências legais decorrentes do uso
+
+### Uso Ético
+Este software foi desenvolvido para:
+- **Educação**: Ensinar conceitos de segurança de rede
+- **Pesquisa**: Análise de protocolos e tráfego de rede
+- **Testes de Segurança**: Auditorias autorizadas e pentesting
+- **Defesa**: Compreender e proteger contra ataques de rede
+
+### Antes de Usar
+1. Obtenha autorização por escrito do proprietário da rede
+2. Documente o escopo e objetivos do teste
+3. Informe todas as partes envolvidas
+4. Mantenha logs de todas as atividades
+5. Respeite a privacidade e os dados pessoais
+6. Siga as leis e regulamentações aplicáveis
+
+**AO USAR ESTE SOFTWARE, VOCÊ CONCORDA EM ASSUMIR TOTAL RESPONSABILIDADE POR SUAS AÇÕES E RECONHECE QUE O AUTOR NÃO TEM QUALQUER RESPONSABILIDADE POR USO INDEVIDO.**
+
+---
+
+**Para mais informações sobre segurança ética, consulte:**
+- OWASP (Open Web Application Security Project)
+- EC-Council Code of Ethics
+- (ISC)² Code of Ethics
+- Suas leis locais sobre crimes cibernéticos
