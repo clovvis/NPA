@@ -36,15 +36,25 @@ License: MIT (with strong emphasis on legal use only – see Legal Notice below)
 NPA uses Scapy for packet manipulation and provides beautiful ASCII banners via toilet (optional, with fallback).
 
 Features
+
 ARP Poisoning: Redirect traffic from a victim to your machine via the gateway.
+
 Packet Sniffing: Capture HTTP/HTTPS (with SNI and cert extraction), DNS queries/responses, and ICMP.
+
 File Extraction: Save HTTP bodies (images, PDFs, etc.) and TLS certificates.
+
 Offline Analysis: Process existing PCAP files without root privileges.
+
 Tcpdump Integration: Optional post-capture analysis with custom filters.
+
 Network Scanning: Discover active IPs and MACs on the local network.
+
 Logging & Cleanup: Automatic log rotation and cleanup of old files.
+
 Wireshark-Compatible: Exports to PCAP for further analysis.
+
 Cross-Platform: Tested on Linux (Ubuntu/Fedora/Arch); macOS with adjustments.
+
 Installation
 Prerequisites
 Python 3.8+
@@ -115,21 +125,26 @@ Custom Output & Cleanup
 sudo python3 npa.py -v 192.168.1.100 -g 192.168.1.1 -i eth0 -o /tmp/my_captures --cleanup-age 12
 -------------------------------------------------------------------------------------------------
 
-Exemplos de Configuração (Configuration Examples)
-Aqui estão exemplos práticos de configurações para cenários comuns. Esses comandos podem ser salvos em scripts shell (ex.: run_npa.sh) para automação. Sempre use com permissão explícita na rede.
+Configuration Examples
 
-1. Escaneamento de Rede em Wi-Fi (Wireless Setup)
-Para uma rede Wi-Fi doméstica ou corporativa, escaneie dispositivos ativos:
+Here are practical examples of configurations for common scenarios. These commands can be saved in shell scripts (e.g., run_npa.sh) for automation. Always use with explicit permission on the network.
+
+1. Wi-Fi Network Scan (Wireless Setup)
+
+For a home or corporate Wi-Fi network, scan for active devices:
 
 #!/bin/bash
 # run_wifi_scan.sh
 sudo python3 npa.py -i wlan0 --scan-network -o ~/network_scans --cleanup-age 48
 --------------------------------------------------------------------------------
 
-* Uso: ./run_wifi_scan.sh
-* Saída: Lista de IPs/MACs no terminal e log em ~/network_scans/.
-2. Captura em Rede Corporativa com Filtro Personalizado (Corporate Network Capture)
-Intercepte tráfego HTTP/HTTPS de um colega de trabalho (com autorização) e analise com tcpdump focado em portas web:
+* Usage: ./run_wifi_scan.sh
+
+* Output: List of IPs/MACs in the terminal and log in ~/network_scans/.
+
+2. Corporate Network Capture with Custom Filter
+
+Intercept HTTP/HTTPS traffic from a coworker (with authorization) and analyze it with tcpdump focused on web ports:
 
 #!/bin/bash
 # run_corporate_capture.sh
@@ -143,10 +158,13 @@ sudo python3 npa.py \
     --cleanup-age 24
 -----------------------------------------------------------------------
 
-* Uso: ./run_corporate_capture.sh
-* Dica: Ajuste IPs para sua sub-rede (ex.: use ip route para gateway).
-3. Análise Offline de PCAP de Ferramenta Externa (Offline from Wireshark)
-Processe um arquivo PCAP capturado por Wireshark, extraindo apenas certificados TLS:
+* Usage: ./run_corporate_capture.sh
+
+* Tip: Adjust IPs for your subnet (e.g., use ip route for gateway).
+
+3. Offline PCAP Analysis from External Tool (Offline from Wireshark)
+
+Process a PCAP file captured by Wireshark, extracting only TLS certificates:
 
 #!/bin/bash
 # run_offline_analysis.sh
@@ -157,10 +175,13 @@ python3 npa.py \
     --tcpdump-filter 'tcp port 443'
 ----------------------------------------------------------
 
-* Uso: ./run_offline_analysis.sh
-* Benefício: Não requer root; ideal para análise forense.
-4. Configuração Avançada com Limpeza Automática (Automated Cleanup Setup)
-Para testes longos, configure limpeza mais frequente e saída em diretório temporário:
+* Usage: ./run_offline_analysis.sh
+
+* Benefit: Does not require root; ideal for forensic analysis.
+
+4. Advanced Setup with Automated Cleanup
+
+For long tests, configure more frequent cleanup and output to a temporary directory:
 
 #!/bin/bash
 # run_long_test.sh
@@ -175,10 +196,13 @@ sudo python3 npa.py \
 echo "Results in: $OUTPUT_DIR"
 -------------------------------------------
 
-* Uso: ./run_long_test.sh
-* Dica: O mktemp cria um diretório temporário seguro.
-5. Integração com Script de Automação (Automation Integration)
-Combine escaneamento + captura em um fluxo:
+* Usage: ./run_long_test.sh
+
+* Tip: mktemp creates a secure temporary directory.
+
+5. Automation Integration
+
+Combine scanning + capture in one workflow:
 
 #!/bin/bash
 # full_audit.sh
@@ -195,9 +219,11 @@ sudo python3 npa.py -v $VICTIM -g $GATEWAY -i $INTERFACE -o audit_results --tcpd
 echo "Audit complete!"
 --------------------------------------------------------------------------------------------
 
-* Uso: ./full_audit.sh
-* Dica: Detecta gateway automaticamente via ip route.
-Esses exemplos assumem uma rede IPv4 padrão. Para IPv6 ou configurações avançadas, modifique os filtros BPF no código fonte.
+* Usage: ./full_audit.sh
+
+* Tip: Automatically detects gateway via ip route.
+
+These examples assume a standard IPv4 network. For IPv6 or advanced configurations, modify the BPF filters in the source code.
 
 
 ----------------------Full Options-------------------------------
