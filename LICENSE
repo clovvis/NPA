@@ -22,63 +22,100 @@ SOFTWARE.
 
 ---
 
-## ⚠️ AVISO DE USO RESPONSÁVEL
+## RESPONSIBLE USE WARNING
 
-**IMPORTANTE: Este software é uma ferramenta de análise de segurança de rede e deve ser usado com responsabilidade.**
+**IMPORTANT: This software is a network security analysis tool and should be used responsibly.**
 
-### Uso Legal
-- ✅ Use APENAS em redes onde você possui autorização EXPLÍCITA e por ESCRITO
-- ✅ Use em ambientes de teste controlados e laboratórios próprios
-- ✅ Use para fins educacionais em ambientes autorizados
-- ✅ Use para auditorias de segurança com consentimento formal
+### Legal Use
 
-### Uso Ilegal
-- ❌ NÃO use em redes públicas ou privadas sem autorização
-- ❌ NÃO use para interceptar comunicações de terceiros
-- ❌ NÃO use para fins maliciosos ou ataques
-- ❌ NÃO use para violar privacidade ou leis de proteção de dados
+- Use ONLY on networks where you have EXPLICIT and WRITTEN authorization
 
-### Avisos Legais
-1. **Responsabilidade do Usuário**: O uso inadequado desta ferramenta pode violar leis de crimes cibernéticos, incluindo:
-   - Lei Carolina Dieckmann (Lei 12.737/2012) - Brasil
-   - Marco Civil da Internet (Lei 12.965/2014) - Brasil
-   - LGPD (Lei 13.709/2018) - Brasil
-   - Computer Fraud and Abuse Act (CFAA) - EUA
-   - Convenção de Budapeste sobre Cibercrime
+- Use in controlled test environments and your own labs
 
-2. **Penalidades**: O uso não autorizado pode resultar em:
-   - Processos criminais
-   - Multas significativas
-   - Prisão
-   - Responsabilidade civil
+- Use for educational purposes in authorized environments
 
-3. **Isenção de Responsabilidade**: O autor NÃO se responsabiliza por:
-   - Uso indevido do software
-   - Danos causados por uso inadequado
-   - Violações de leis locais, nacionais ou internacionais
-   - Consequências legais decorrentes do uso
+- Use for security audits with formal consent
 
-### Uso Ético
-Este software foi desenvolvido para:
-- **Educação**: Ensinar conceitos de segurança de rede
-- **Pesquisa**: Análise de protocolos e tráfego de rede
-- **Testes de Segurança**: Auditorias autorizadas e pentesting
-- **Defesa**: Compreender e proteger contra ataques de rede
+### Illegal Use
 
-### Antes de Usar
-1. Obtenha autorização por escrito do proprietário da rede
-2. Documente o escopo e objetivos do teste
-3. Informe todas as partes envolvidas
-4. Mantenha logs de todas as atividades
-5. Respeite a privacidade e os dados pessoais
-6. Siga as leis e regulamentações aplicáveis
+- DO NOT use on public or private networks without authorization
 
-**AO USAR ESTE SOFTWARE, VOCÊ CONCORDA EM ASSUMIR TOTAL RESPONSABILIDADE POR SUAS AÇÕES E RECONHECE QUE O AUTOR NÃO TEM QUALQUER RESPONSABILIDADE POR USO INDEVIDO.**
+- DO NOT use to intercept third-party communications
+
+- DO NOT use for malicious purposes or attacks
+
+- DO NOT use to violate privacy or data protection laws
+
+### Legal Notices
+
+1. **User Responsibility**: Improper use of this tool may violate cybercrime laws, including:
+
+- Carolina Dieckmann Law (Law 12.737/2012) - Brazil
+
+- Brazilian Civil Rights Framework for the Internet (Law 12.965/2014) - Brazil
+
+  - LGPD (Law 13.709/2018) - Brazil
+
+  - Computer Fraud and Abuse Act (CFAA) - USA
+
+  - Budapest Convention on Cybercrime
+
+2. **Penalties**: Unauthorized use may result in:
+
+   - Criminal prosecution
+
+   - Significant fines
+
+   - Imprisonment
+
+   - Civil liability
+
+3. **Disclaimer**: The author is NOT responsible for:
+
+   - Misuse of the software
+
+   - Damage caused by improper use
+
+   - Violations of local, national, or international laws
+
+   - Legal consequences arising from use
+
+### Ethical Use
+
+This software was developed for:
+
+- **Education**: Teaching network security concepts
+
+- **Research**: Analysis of protocols and network traffic
+
+- **Security Testing**: Authorized audits and pentesting
+
+- **Defense**: Understanding and protecting against network attacks
+
+### Before Use
+
+1. Obtain written permission from the network owner
+
+2. Document the scope and objectives of the test
+
+3. Inform all parties involved
+
+4. Keep logs of all activities
+
+5. Respect privacy and personal data
+
+6. Follow applicable laws and regulations
+
+**BY USING THIS SOFTWARE, YOU AGREE TO ASSUME FULL RESPONSIBILITY FOR YOUR ACTIONS AND ACKNOWLEDGE THAT THE AUTHOR HAS NO RESPONSIBILITY FOR IMPROPER USE.**
 
 ---
 
-**Para mais informações sobre segurança ética, consulte:**
+For more information on ethical security, see:
+
 - OWASP (Open Web Application Security Project)
+
 - EC-Council Code of Ethics
+
 - (ISC)² Code of Ethics
-- Suas leis locais sobre crimes cibernéticos
+
+- Your local laws on cybercrime
