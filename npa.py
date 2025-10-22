@@ -1194,10 +1194,3 @@ WARNING: Use only on networks where you have explicit authorization.
 if __name__ == '__main__':
     main()
 
-
-# ADICIONAR DETECÇÃO DE PORTAS         ✓✓✓✓✓✓✓
-# MELHORAR SAÍDA DE SCAN 
-# EXPLICAR COMO USAR O SCAN
-# aicionar varredura UDP 
-# Melhorar detecção de portas
-# Tornar scan mais rápido             ✓✓✓✓✓✓✓
