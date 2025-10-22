@@ -15,6 +15,7 @@ import subprocess
 import signal
 import shutil
 from typing import Dict, Any, Optional
+import concurrent.futures
 
 # --- ToiletBanner Class ---
 
@@ -160,7 +161,7 @@ class ToiletBanner:
         # Additional information
         print(f"{self.COLORS['cyan']}{'─' * 80}{self.COLORS['reset']}")
         print(f"{self.COLORS['bold']}    NPA-Network Packet Analyzer & ARP Interceptor{self.COLORS['reset']}")
-        print(f"{self.COLORS['dim']}    Version 1.17.0 - Network Traffic Analysis{self.COLORS['reset']}")
+        print(f"{self.COLORS['dim']}    Version 0.20.0 - Network Traffic Analysis{self.COLORS['reset']}")
         print(f"{self.COLORS['cyan']}{'─' * 80}{self.COLORS['reset']}")
 
         if show_warning:
@@ -226,7 +227,7 @@ class ToiletBanner:
     def print_install_guide(self):
         """Print toilet installation guide."""
         print(f"\n{self.COLORS['yellow']}{'═' * 80}{self.COLORS['reset']}")
-        print(f"  ℹ️ TOILET NOT INSTALLED - Using simplified banner")
+        print(f"   TOILET NOT INSTALLED - Using simplified banner")
         print(f"{self.COLORS['yellow']}{'═' * 80}{self.COLORS['reset']}")
         print(f"\n  For more attractive banners, install the toilet:")
         print(f"\n  {self.COLORS['cyan']}Ubuntu/Debian:{self.COLORS['reset']}")
@@ -269,8 +270,44 @@ def get_mac(target_ip, iface):
     except Exception as e:
         print(f"[ERROR] Could not get MAC for {target_ip}: {e}")
         return None
-    
-def scan_network(interface: str, output_dir: str = 'captures'):
+
+def check_port(ip: str, port: int, iface: str, timeout: float = 0.5) -> bool:
+    """Check if a single port is open using SYN scan."""
+    try:
+        # Send SYN packet
+        syn_pkt = IP(dst=ip) / TCP(dport=port, flags='S')
+        resp = sr1(syn_pkt, timeout=timeout, verbose=0, iface=iface)
+
+        if resp and TCP in resp and resp[TCP].flags & 0x12 == 0x12:     # SYN-ACK
+            # Send RST to close the connection
+            rst_pkt = IP(dst=ip) / TCP(dport=port, flags='R', seq=resp[TCP].ack, ack=resp[TCP].seq + 1)
+            send(rst_pkt, verbose=0, iface=iface)
+            return True
+        return False
+    except Exception:
+        return False
+
+def scan_ports(ip: str, ports: list, iface: str, timeout: float = 0.5, max_workers: int = 0.5) -> list:
+    """Scan for open ports on a given IP using SYN scan."""
+    open_ports = []
+    print(f"[PORT SCAN] Scanning {ip} (parallel, timeout: {timeout}s)...")
+
+    with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
+        future_to_port = {executor.submit(check_port, ip, port, iface, timeout): port for port in ports}
+        for future in concurrent.futures.as_completed(future_to_port):
+            port = future_to_port[future]
+            try:
+                if future.result():
+                    open_ports.append(port)
+                    print(f"  Port {port}: Open")
+                else:
+                    print(f"  Port {port}: Closed")
+            except Exception as e:
+                print(f"  Port {port}: Error - {e}")
+
+    return open_ports
+
+def scan_network(interface: str, output_dir: str = 'captures', port_scan: bool = False):
     """Scan the local network for active IPs and their MAC addresses."""
     _banner_tool.print_section_header("Network Scan", char="─")
     try:
@@ -301,10 +338,27 @@ def scan_network(interface: str, output_dir: str = 'captures'):
         print(f"\n[RESULTS] Found {len(devices)} active devices:")
         _banner_tool.print_stats_box({"Total Devices": len(devices)})
 
-        print("IP Address        | MAC Address")
-        print("-" * 40)
+        # Improved output: Table with IP, MAC, and ports if scanning
+        headers = ["IP Address", "MAC Address"]
+        if port_scan:
+            headers.append("Open Ports")
+
+        print("\n" + " | ".join(headers))
+        print("-" * (15 + 3 + 17 + 3 + (20 if port_scan else 0)))
+
+        # Common ports to scan
+        common_ports = [21, 22, 23, 25, 53, 80, 110, 111, 135, 139, 143, 443, 993, 995, 1723, 3306, 3389, 5900, 8080]
+
+        device_results = []
         for ip, mac in devices:
-            print(f"{ip:15s} | {mac}")
+            open_ports = []
+            if port_scan:
+                open_ports = scan_ports(ip, common_ports, interface)
+
+            port_str = ", ".join(map(str, open_ports)) if open_ports else "None"
+            print(f"{ip:15} | {mac:17} | {port_str:20}" if port_scan else f"{ip:15} | {mac:17}")
+
+            device_results.append(ip, mac, open_ports)
 
         # Save to log file
         os.makedirs(output_dir, exist_ok=True)
@@ -314,12 +368,29 @@ def scan_network(interface: str, output_dir: str = 'captures'):
             f.write(f"Network Scan Result - {datetime.datetime.now()}\n")
             f.write(f"Network: {network}\n")
             f.write(f"Local IP: {local_ip}\n\n")
-            f.write("IP Address        | MAC Address")
-            f.write("-" * 40 + "\n")
-            for ip, mac in devices:
-                f.write(f"{ip:15s} | {mac}\n")
+            if port_scan:
+                f.write(f"Port Scan: Yes (Ports: {', '.join(map(str, common_ports))})\n")
+            f.write("\n")
+            f.write(" | ".join(headers) + "\n")
+            f.write("-" * (15 + 3 + 17 + 3 + (20 if port_scan else 0)) + "\n")
+            for ip, mac, open_ports in device_results:
+                port_str = ", ".join(map(str, open_ports)) if open_ports else "None"
+                line = f"{ip:15} | {mac:17} | {port_str:20}" if port_scan else f"{ip:15} | {mac:17}"
+                f.write(line + "\n")
 
         print(f"\n[LOG] Results saved to: {log_file}")
+
+        # Explanation
+        print(f"\n{ _banner_tool.COLORS['cyan']}{'─' * 80}{_banner_tool.COLORS['reset']}")
+        print(f"{_banner_tool.COLORS['bold']}HOW TO USE NETWORK SCAN{_banner_tool.COLORS['reset']}")
+        print(f"{_banner_tool.COLORS['cyan']}{'─' * 80}{_banner_tool.COLORS['reset']}")
+        print(f"• Run: sudo python3 npa.py -i {interface} --scan-network")
+        print(f"• Add --port-scan for port detection on common ports.")
+        print(f"• Results include IPs, MACs, and open ports (if scanned).")
+        print(f"• Logs saved in {output_dir} for further analysis.")
+        print(f"• Use discovered IPs as --victim in live capture mode.")
+        print(f"{_banner_tool.COLORS['cyan']}{'─' * 80}{_banner_tool.COLORS['reset']}\n")
+
     except Exception as e:
         _banner_tool.print_error_banner(f"Network scan failed: {e}")
 
@@ -915,6 +986,8 @@ class NetworkAnalyzer:
                 if proc.is_alive():
                     proc.kill()
 
+# --- Main Function ---
+# Entry point of the script. Handles argument parsing, mode selection (live/offline/scan), and execution.
 
 def main():
     """Main function."""
@@ -923,6 +996,7 @@ def main():
 
     print_banner()
 
+
     # Check for root privileges (only for live mode)
     if len(sys.argv) > 1 and '--pcap-input' not in ' '.join(sys.argv):
         if os.getuid() != 0:
@@ -930,15 +1004,6 @@ def main():
             print("[HINT] Run with: sudo python3 npa.py [options]")
             print("[INFO] For offline analysis, use --pcap-input without sudo")
             sys.exit(1)
-
-    # Check dependencies
-    try:
-        import scapy.all
-        import netifaces
-    except ImportError:
-        _banner_tool.print_error_banner("Dependencies not found.")
-        print("[FIX] Install with: pip3 install scapy netifaces")
-        sys.exit(1)
 
     # Argument parser
     parser = argparse.ArgumentParser(
@@ -964,10 +1029,11 @@ USAGE EXAMPLES:
 
   Network scan (requires root):
     sudo python3 npa.py -i eth0 --scan-network
+    sudo python3 npa.py -i eth0 --scan-network --port-scan  # With port detection
 
 WARNING: Use only on networks where you have explicit authorization.
         """,
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter           # Preserve epilog formatting
     )
 
     parser.add_argument(
@@ -1015,15 +1081,21 @@ WARNING: Use only on networks where you have explicit authorization.
     )
 
     parser.add_argument(
-        "--scan-network",
+        "-s", "--scan-network",
         action='store_true',
         help="Scan the local network for active IPs and MAC addresses"
     )
 
     parser.add_argument(
+        "-p", "--port-scan",
+        action='store_true',
+        help="Perform port scanning on discovered hosts during network scan (scans common TC"
+    )
+
+    parser.add_argument(
         "-V", "--version",
         action='version',
-        version='%(prog)s 1.17.0'
+        version='%(prog)s 0.20.0'
     )
 
     parser.add_argument(
@@ -1042,7 +1114,7 @@ WARNING: Use only on networks where you have explicit authorization.
         if os.geteuid() != 0:
             print("[ERROR] Root privileges required for network scan.")
             sys.exit(1)
-        scan_network(args.interface, args.output)
+        scan_network(args.interface, args.output, port_scan=args.port_scan)
         sys.exit(0)
 
     # List interfaces
@@ -1123,6 +1195,9 @@ if __name__ == '__main__':
     main()
 
 
-# ADICIONAR DETECÇÃO DE PORTAS       
+# ADICIONAR DETECÇÃO DE PORTAS         ✓✓✓✓✓✓✓
 # MELHORAR SAÍDA DE SCAN 
 # EXPLICAR COMO USAR O SCAN
+# aicionar varredura UDP 
+# Melhorar detecção de portas
+# Tornar scan mais rápido             ✓✓✓✓✓✓✓
