@@ -67,10 +67,10 @@ brew install tcpdump openssl toilet          # macOS
 1. **Clone or download the repository**:
 
    ```bash
-   wget https://example.com/npa.py
+   wget https://github.com/clovvis/NPA.git
    # or
-   git clone https://example.com/npa.git
-   cd npa
+   git clone https://github.com/clovvis/NPA.git
+   cd NPA
    ```
 
 2. **Install dependencies**:
